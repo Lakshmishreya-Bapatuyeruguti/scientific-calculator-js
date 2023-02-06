@@ -62,6 +62,7 @@ button {
 input {
   border: none;
   background-color: whitesmoke;
+  text-align: right;
 }
 input:focus {
   outline: none;
