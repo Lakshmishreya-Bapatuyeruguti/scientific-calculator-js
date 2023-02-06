@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="calContainer">
       <div class="screen">
         <input type="text" class="screenTxt" />
       </div>
-      <div class="row">
-        <button class="btn">DEG</button>
-        <button class="btn">F-E</button>
+      <div class="row row1">
+        <button class="btn btn1">DEG</button>
+        <button class="btn btn1">F-E</button>
       </div>
       <div class="row">
         <button onclick="mc()">MC</button>
@@ -22,17 +23,18 @@
         <button onclick="mMinus()">M-</button>
         <button onclick="ms()">MS</button>
       </div>
-      <div class="row">
+      <div class="row row-three">
         <select
           name="Trig"
           id="trigs"
           value="Trignometry"
           onchange="trignometric()"
         >
-          <option value="">Trignometry</option>
-          <option value="sin">sin</option>
-          <option value="cos">cos</option>
-          <option value="tan">tan</option>
+          <option value="none" selected disabled hidden>Trignometry ∡</option>
+
+          <option class="ops" value="sin">sin</option>
+          <option class="ops" value="cos">cos</option>
+          <option class="ops" value="tan">tan</option>
         </select>
         <select
           name="Functions"
@@ -41,10 +43,10 @@
           onchange="functionOptions()"
         >
           Functions
-          <option value="">Functions</option>
-          <option value="rand">rand</option>
-          <option value="floor">floor</option>
-          <option value="ceil">ceil</option>
+          <option value="none" selected disabled hidden>Functions ƒ</option>
+          <option class="ops" value="rand">rand</option>
+          <option class="ops" value="floor">floor</option>
+          <option class="ops" value="ceil">ceil</option>
         </select>
       </div>
       <div class="row">
@@ -94,7 +96,7 @@
         <button onclick="plusMinus()">+/-</button>
         <button class="btn">0</button>
         <button class="btn">.</button>
-        <button onclick="resultant()">=</button>
+        <button onclick="resultant()" class="eqBtn">=</button>
       </div>
     </div>
     <script src="script.js"></script>

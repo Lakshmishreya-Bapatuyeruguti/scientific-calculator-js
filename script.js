@@ -84,10 +84,10 @@ function pow2or3() {
   //   console.log();
   let currValTxt = currVal.textContent;
   if (currValTxt === "x2") {
-    inp.value = Math.pow(inp.value, 2);
+    inp.value = Math.pow(eval(inp.value), 2);
   }
   if (currValTxt === "x3") {
-    inp.value = Math.pow(inp.value, 3);
+    inp.value = Math.pow(eval(inp.value), 3);
   }
 }
 function root2or3() {
