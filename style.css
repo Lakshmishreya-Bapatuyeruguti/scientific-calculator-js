@@ -67,3 +67,6 @@ input {
 input:focus {
   outline: none;
 }
+.lightM {
+  color: lightgray;
+}

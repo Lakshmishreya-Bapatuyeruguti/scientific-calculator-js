@@ -1,6 +1,7 @@
 const allBtns = document.querySelectorAll(".btn");
 const inp = document.querySelector(".screenTxt");
 let toggle = 0;
+let memToggle = 0;
 for (let btn of allBtns) {
   btn.addEventListener("click", (e) => {
     // console.log(e.target);
@@ -19,17 +20,17 @@ for (let btn of allBtns) {
 }
 function resultant() {
   try {
-    if (inp.value[0] === "s") {
-      let sinVal = inp.value.slice(3);
-      sin(sinVal);
+    if (inp.value.includes("sin")) {
+      let finalSinVal = sinOpr();
+      inp.value = finalSinVal;
     }
-    if (inp.value[0] === "c") {
-      let cosVal = inp.value.slice(3);
-      cos(cosVal);
+    if (inp.value.includes("cos")) {
+      let finalCosVal = cosOpr();
+      inp.value = finalCosVal;
     }
-    if (inp.value[0] === "t") {
-      let tanVal = inp.value.slice(3);
-      tan(tanVal);
+    if (inp.value.includes("tan")) {
+      let finalTanVal = tanOpr();
+      inp.value = finalTanVal;
     }
     if (inp.value.includes("√")) {
       let finalSrRes = sqrRootOpr();
@@ -68,14 +69,14 @@ function trignometric() {
     inp.value += "tan";
   }
 }
-function sin(val) {
-  inp.value = Math.sin(val);
+function sinRes(val) {
+  return Math.sin(val);
 }
-function cos(val) {
-  inp.value = Math.cos(val);
+function cosRes(val) {
+  return Math.cos(val);
 }
-function tan(val) {
-  inp.value = Math.tan(val);
+function tanRes(val) {
+  return Math.tan(val);
 }
 function pi() {
   inp.value += 3.14159265359;
@@ -204,26 +205,42 @@ function functionOptions() {
   }
 }
 
+function mc() {
+  if (memToggle === 1) {
+    localStorage.removeItem("ms");
+    inp.value = "";
+  }
+}
+function mr() {
+  if (memToggle === 1) {
+    inp.value = +localStorage.getItem("ms");
+  }
+}
 function ms() {
+  hightlightMem();
   localStorage.setItem("ms", inp.value);
   inp.value = "";
 }
-function mc() {
-  localStorage.removeItem("ms");
-  inp.value = "";
-}
-function mr() {
-  inp.value = +localStorage.getItem("ms");
-}
 function mPlus() {
+  hightlightMem();
   let msVal = Number(localStorage.getItem("ms"));
   msVal += Number(inp.value);
   localStorage.setItem("ms", msVal);
 }
 function mMinus() {
+  hightlightMem();
   let msVal = Number(localStorage.getItem("ms"));
   let mMinus = msVal - Number(inp.value);
   localStorage.setItem("ms", Math.abs(mMinus));
+}
+function hightlightMem() {
+  memToggle = 1;
+  if (memToggle === 1) {
+    let bothBtns = document.querySelectorAll(".lightM");
+    for (let btn of bothBtns) {
+      btn.classList.remove("lightM");
+    }
+  }
 }
 
 function sqrRootOpr() {
@@ -315,6 +332,104 @@ function lnOpr() {
       }
 
       cutStrRes = lnRes(cutStr);
+    }
+  }
+  console.log(cutStrRes);
+  let strToArr = inp.value.split("");
+  strToArr.splice(idxPos, count);
+  strToArr.splice(idxPos, 0, cutStrRes + "");
+  strToArr = strToArr.join("");
+  return strToArr;
+}
+function sinOpr() {
+  let cutStr = "";
+  let cutStrRes;
+  let count = 3;
+  let idxPos = 0;
+  for (let i = 0; i < inp.value.length; i++) {
+    if (inp.value[i] === "s") {
+      idxPos = i;
+      for (let j = i + 3; j < inp.value.length; j++) {
+        if (
+          inp.value[j] === "+" ||
+          inp.value[j] === "-" ||
+          inp.value[j] === "*" ||
+          inp.value[j] === "/"
+        ) {
+          break;
+        } else if (Number(inp.value[j]) >= 0 && Number(inp.value[j]) <= 9) {
+          cutStr += inp.value[j];
+          count++;
+        }
+      }
+
+      cutStrRes = sinRes(cutStr);
+    }
+  }
+  console.log(cutStrRes);
+  let strToArr = inp.value.split("");
+  strToArr.splice(idxPos, count);
+  strToArr.splice(idxPos, 0, cutStrRes + "");
+  strToArr = strToArr.join("");
+  return strToArr;
+}
+
+function cosOpr() {
+  let cutStr = "";
+  let cutStrRes;
+  let count = 3;
+  let idxPos = 0;
+  for (let i = 0; i < inp.value.length; i++) {
+    if (inp.value[i] === "c") {
+      idxPos = i;
+      for (let j = i + 3; j < inp.value.length; j++) {
+        if (
+          inp.value[j] === "+" ||
+          inp.value[j] === "-" ||
+          inp.value[j] === "*" ||
+          inp.value[j] === "/"
+        ) {
+          break;
+        } else if (Number(inp.value[j]) >= 0 && Number(inp.value[j]) <= 9) {
+          cutStr += inp.value[j];
+          count++;
+        }
+      }
+
+      cutStrRes = cosRes(cutStr);
+    }
+  }
+  console.log(cutStrRes);
+  let strToArr = inp.value.split("");
+  strToArr.splice(idxPos, count);
+  strToArr.splice(idxPos, 0, cutStrRes + "");
+  strToArr = strToArr.join("");
+  return strToArr;
+}
+
+function tanOpr() {
+  let cutStr = "";
+  let cutStrRes;
+  let count = 3;
+  let idxPos = 0;
+  for (let i = 0; i < inp.value.length; i++) {
+    if (inp.value[i] === "t") {
+      idxPos = i;
+      for (let j = i + 3; j < inp.value.length; j++) {
+        if (
+          inp.value[j] === "+" ||
+          inp.value[j] === "-" ||
+          inp.value[j] === "*" ||
+          inp.value[j] === "/"
+        ) {
+          break;
+        } else if (Number(inp.value[j]) >= 0 && Number(inp.value[j]) <= 9) {
+          cutStr += inp.value[j];
+          count++;
+        }
+      }
+
+      cutStrRes = tanRes(cutStr);
     }
   }
   console.log(cutStrRes);
