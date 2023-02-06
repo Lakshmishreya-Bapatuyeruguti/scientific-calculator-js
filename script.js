@@ -1,6 +1,6 @@
 const allBtns = document.querySelectorAll(".btn");
 const inp = document.querySelector(".screenTxt");
-let memVal = [];
+let toggle = 0;
 for (let btn of allBtns) {
   btn.addEventListener("click", (e) => {
     // console.log(e.target);
@@ -31,6 +31,18 @@ function resultant() {
       let tanVal = inp.value.slice(3);
       tan(tanVal);
     }
+    if (inp.value.includes("√")) {
+      let finalSrRes = sqrRootOpr();
+      inp.value = finalSrRes;
+    }
+    if (inp.value.includes("log")) {
+      let finalLogRes = logOpr();
+      inp.value = finalLogRes;
+    }
+    if (inp.value.includes("ln")) {
+      let finalLnRes = lnOpr();
+      inp.value = finalLnRes;
+    }
     inp.value = eval(inp.value);
   } catch {
     inp.value = "Invalid Input";
@@ -47,13 +59,13 @@ function trignometric() {
   let selectedTrig = trigContent.value;
   //   console.log(selectedTrig);
   if (selectedTrig === "sin") {
-    inp.value = "sin";
+    inp.value += "sin";
   }
   if (selectedTrig === "cos") {
-    inp.value = "cos";
+    inp.value += "cos";
   }
   if (selectedTrig === "tan") {
-    inp.value = "tan";
+    inp.value += "tan";
   }
 }
 function sin(val) {
@@ -72,12 +84,23 @@ function e() {
   inp.value += 2.71828182846;
 }
 function secondOptions() {
-  let x3 = document.getElementById("xSquare");
-  x3.innerHTML = "x<sup>3</sup>";
-  let cubeRoot = document.getElementById("sqrRootX");
-  cubeRoot.innerHTML = "<sup>3</sup>√x";
-  let x10 = document.getElementById("tenToX");
-  x10.innerHTML = "x<sup>10</sup>";
+  if (toggle === 0) {
+    let x3 = document.getElementById("xSquare");
+    x3.innerHTML = "x<sup>3</sup>";
+    let cubeRoot = document.getElementById("sqrRootX");
+    cubeRoot.innerHTML = "<sup>3</sup>√x";
+    let x10 = document.getElementById("tenToX");
+    x10.innerHTML = "x<sup>10</sup>";
+    toggle = 1;
+  } else {
+    let x3 = document.getElementById("xSquare");
+    x3.innerHTML = "x<sup>2</sup>";
+    let cubeRoot = document.getElementById("sqrRootX");
+    cubeRoot.innerHTML = "√x";
+    let x10 = document.getElementById("tenToX");
+    x10.innerHTML = "10<sup>x</sup>";
+    toggle = 0;
+  }
 }
 function pow2or3() {
   let currVal = document.getElementById("xSquare");
@@ -90,15 +113,22 @@ function pow2or3() {
     inp.value = Math.pow(eval(inp.value), 3);
   }
 }
+function sqrR(val) {
+  return Math.sqrt(val);
+}
+function logRes(val) {
+  return Math.log10(val);
+}
+function lnRes(val) {
+  return Math.log(val);
+}
 function root2or3() {
   let currVal = document.getElementById("sqrRootX");
 
   let currValTxt = currVal.textContent;
   console.log(currValTxt);
   if (currValTxt === "√x") {
-    // inp.value += "√";
-    // let rootVal=inp.value.replace('√','')
-    inp.value = Math.sqrt(eval(inp.value));
+    inp.value += "√";
   }
   if (currValTxt === "3√x") {
     console.log("shfgd");
@@ -119,10 +149,12 @@ function xPowY() {
   inp.value = Math.pow(eval(inp.value), eval(inp.value));
 }
 function ln() {
-  inp.value = Math.log(eval(inp.value));
+  inp.value += "ln";
+  // inp.value = Math.log(eval(inp.value));
 }
 function log() {
-  inp.value = Math.log10(eval(inp.value));
+  inp.value += "log";
+  // inp.value = Math.log10(eval(inp.value));
 }
 function oneByX() {
   inp.value = 1 / eval(inp.value);
@@ -192,4 +224,103 @@ function mMinus() {
   let msVal = Number(localStorage.getItem("ms"));
   let mMinus = msVal - Number(inp.value);
   localStorage.setItem("ms", Math.abs(mMinus));
+}
+
+function sqrRootOpr() {
+  let cutStr = "";
+  let cutStrRes;
+  let count = 1;
+  let idxPos = 0;
+  for (let i = 0; i < inp.value.length; i++) {
+    if (inp.value[i] === "√") {
+      idxPos = i;
+      for (let j = i + 1; j < inp.value.length; j++) {
+        if (
+          inp.value[j] === "+" ||
+          inp.value[j] === "-" ||
+          inp.value[j] === "*" ||
+          inp.value[j] === "/"
+        ) {
+          break;
+        } else if (Number(inp.value[j]) >= 0 && Number(inp.value[j]) <= 9) {
+          cutStr += inp.value[j];
+          count++;
+        }
+      }
+
+      cutStrRes = sqrR(cutStr);
+    }
+  }
+
+  let strToArr = inp.value.split("");
+  strToArr.splice(idxPos, count);
+  strToArr.splice(idxPos, 0, cutStrRes + "");
+  strToArr = strToArr.join("");
+  return strToArr;
+}
+
+function logOpr() {
+  let cutStr = "";
+  let cutStrRes;
+  let count = 3;
+  let idxPos = 0;
+  for (let i = 0; i < inp.value.length; i++) {
+    if (inp.value[i] === "l") {
+      idxPos = i;
+      for (let j = i + 3; j < inp.value.length; j++) {
+        if (
+          inp.value[j] === "+" ||
+          inp.value[j] === "-" ||
+          inp.value[j] === "*" ||
+          inp.value[j] === "/"
+        ) {
+          break;
+        } else if (Number(inp.value[j]) >= 0 && Number(inp.value[j]) <= 9) {
+          cutStr += inp.value[j];
+          count++;
+        }
+      }
+
+      cutStrRes = logRes(cutStr);
+    }
+  }
+  console.log(cutStrRes);
+  let strToArr = inp.value.split("");
+  strToArr.splice(idxPos, count);
+  strToArr.splice(idxPos, 0, cutStrRes + "");
+  strToArr = strToArr.join("");
+  return strToArr;
+}
+
+function lnOpr() {
+  let cutStr = "";
+  let cutStrRes;
+  let count = 3;
+  let idxPos = 0;
+  for (let i = 0; i < inp.value.length; i++) {
+    if (inp.value[i] === "l") {
+      idxPos = i;
+      for (let j = i + 2; j < inp.value.length; j++) {
+        if (
+          inp.value[j] === "+" ||
+          inp.value[j] === "-" ||
+          inp.value[j] === "*" ||
+          inp.value[j] === "/"
+        ) {
+          break;
+        } else if (Number(inp.value[j]) >= 0 && Number(inp.value[j]) <= 9) {
+          cutStr += inp.value[j];
+          count++;
+        }
+      }
+
+      cutStrRes = lnRes(cutStr);
+    }
+  }
+  console.log(cutStrRes);
+  let strToArr = inp.value.split("");
+  strToArr.splice(idxPos, count);
+  strToArr.splice(idxPos, 0, cutStrRes + "");
+  strToArr = strToArr.join("");
+  return strToArr;
 }
