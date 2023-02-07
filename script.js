@@ -21,56 +21,81 @@ for (let btn of allBtns) {
     }
     //check condition for consecutive oprators
     if (inp.value.includes("++")) {
-      inp.value = inp.value.slice(0, inp.value.length - 1);
+      inp.value = sameConsecutiveOpr();
     }
     if (inp.value.includes("--")) {
-      inp.value = inp.value.slice(0, inp.value.length - 1);
+      inp.value = sameConsecutiveOpr();
     }
     if (inp.value.includes("//")) {
-      inp.value = inp.value.slice(0, inp.value.length - 1);
+      inp.value = sameConsecutiveOpr();
     }
     if (inp.value.includes("**")) {
-      inp.value = inp.value.slice(0, inp.value.length - 1);
+      inp.value = sameConsecutiveOpr();
     }
     if (inp.value.includes("+-")) {
-      let last = inp.value[inp.value.length - 1];
-      let strToArr = inp.value.split("");
-      let s = strToArr.length;
-      strToArr.splice(s - 2, 2, last);
-      console.log(strToArr);
-      let finalRes = strToArr.join("");
-      inp.value = finalRes;
+      checkConsecutiveOpr("+-");
     }
     if (inp.value.includes("+/")) {
-      let last = inp.value[inp.value.length - 1];
-      let strToArr = inp.value.split("");
-      let s = strToArr.length;
-      strToArr.splice(s - 2, 2, last);
-      console.log(strToArr);
-      let finalRes = strToArr.join("");
-      inp.value = finalRes;
+      checkConsecutiveOpr("+/");
     }
     if (inp.value.includes("+*")) {
-      let last = inp.value[inp.value.length - 1];
-      let strToArr = inp.value.split("");
-      let s = strToArr.length;
-      strToArr.splice(s - 2, 2, last);
-      console.log(strToArr);
-      let finalRes = strToArr.join("");
-      inp.value = finalRes;
+      checkConsecutiveOpr("+*");
+    }
+    if (inp.value.includes("-+")) {
+      checkConsecutiveOpr("-+");
+    }
+    if (inp.value.includes("-/")) {
+      checkConsecutiveOpr("-/");
+    }
+    if (inp.value.includes("-*")) {
+      checkConsecutiveOpr("-*");
+    }
+    if (inp.value.includes("*+")) {
+      checkConsecutiveOpr("*+");
+    }
+    if (inp.value.includes("*/")) {
+      checkConsecutiveOpr("*/");
+    }
+    if (inp.value.includes("*-")) {
+      checkConsecutiveOpr("*-");
+    }
+    if (inp.value.includes("/+")) {
+      checkConsecutiveOpr("/+");
+    }
+    if (inp.value.includes("/-")) {
+      checkConsecutiveOpr("/-");
+    }
+    if (inp.value.includes("/*")) {
+      checkConsecutiveOpr("/*");
     }
     if (inp.value.includes(".")) {
+      let countDot = inp.value.split(".").length - 1;
+      if (countDot > 1) {
+        if (inp.value.includes("+", "-", "/", "*")) {
+        } else {
+          inp.value = inp.value.slice(0, inp.value.length - 1);
+        }
+      }
       if (inp.value.includes("..")) {
-        let last = inp.value[inp.value.length - 1];
-        let strToArr = inp.value.split("");
-        let s = strToArr.length;
-        strToArr.splice(s - 2, 2, last);
-        console.log(strToArr);
-        let finalRes = strToArr.join("");
-        inp.value = finalRes;
+        checkConsecutiveOpr("..");
       }
     }
   });
+}
+//functions to check consecutive operators
+function checkConsecutiveOpr(val) {
+  if (inp.value.includes(val)) {
+    let last = inp.value[inp.value.length - 1];
+    let strToArr = inp.value.split("");
+    let s = strToArr.length;
+    strToArr.splice(s - 2, 2, last);
+    console.log(strToArr);
+    let finalRes = strToArr.join("");
+    inp.value = finalRes;
+  }
+}
+function sameConsecutiveOpr() {
+  return inp.value.slice(0, inp.value.length - 1);
 }
 //degree function
 function deg() {
