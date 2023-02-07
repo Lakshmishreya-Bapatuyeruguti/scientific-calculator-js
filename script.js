@@ -59,6 +59,17 @@ for (let btn of allBtns) {
       let finalRes = strToArr.join("");
       inp.value = finalRes;
     }
+    if (inp.value.includes(".")) {
+      if (inp.value.includes("..")) {
+        let last = inp.value[inp.value.length - 1];
+        let strToArr = inp.value.split("");
+        let s = strToArr.length;
+        strToArr.splice(s - 2, 2, last);
+        console.log(strToArr);
+        let finalRes = strToArr.join("");
+        inp.value = finalRes;
+      }
+    }
   });
 }
 //degree function
