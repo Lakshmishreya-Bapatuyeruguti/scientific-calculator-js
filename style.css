@@ -9,8 +9,10 @@
   background-color: whitesmoke;
   display: flex;
   flex-direction: column;
-  border: 1px solid lightgrey;
+  border: 1px solid rgb(168, 168, 168);
+  height: max-content;
 }
+
 .row {
   display: flex;
   justify-content: space-around;
@@ -45,9 +47,12 @@ button {
 }
 #funcs {
   background-color: #f1f1f1;
-  padding: 2.6%;
+
   font-size: 16px;
   border: none;
+}
+.ops {
+  text-indent: 40%;
 }
 #trigs:focus,
 #funcs:focus {
@@ -89,4 +94,15 @@ input[type="text"] {
   padding: 12px 20px;
   /* margin: 8px 0; */
   box-sizing: border-box;
+}
+select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+button:active {
+  box-shadow: 0 0 5px 4px#73c2fb;
+  opacity: 1.4;
 }

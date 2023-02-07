@@ -1,10 +1,14 @@
+//Selecting all buttons
 const allBtns = document.querySelectorAll(".btn");
 const inp = document.querySelector(".screenTxt");
+let countP = 0;
 let toggle = 0;
 let memToggle = 0;
+let degToggle = 0;
+let str = "";
+//Adding event listener on button click
 for (let btn of allBtns) {
   btn.addEventListener("click", (e) => {
-    // console.log(e.target);
     let txtOnBtn = e.target.textContent;
     if (txtOnBtn === "÷") {
       txtOnBtn = "/";
@@ -12,14 +16,67 @@ for (let btn of allBtns) {
     if (txtOnBtn === "X") {
       txtOnBtn = "*";
     }
-
     if (txtOnBtn !== "=") {
       inp.value += txtOnBtn;
     }
+    //check condition for consecutive oprators
+    if (inp.value.includes("++")) {
+      inp.value = inp.value.slice(0, inp.value.length - 1);
+    }
+    if (inp.value.includes("--")) {
+      inp.value = inp.value.slice(0, inp.value.length - 1);
+    }
+    if (inp.value.includes("//")) {
+      inp.value = inp.value.slice(0, inp.value.length - 1);
+    }
+    if (inp.value.includes("**")) {
+      inp.value = inp.value.slice(0, inp.value.length - 1);
+    }
+    if (inp.value.includes("+-")) {
+      let last = inp.value[inp.value.length - 1];
+      let strToArr = inp.value.split("");
+      let s = strToArr.length;
+      strToArr.splice(s - 2, 2, last);
+      console.log(strToArr);
+      let finalRes = strToArr.join("");
+      inp.value = finalRes;
+    }
+    if (inp.value.includes("+/")) {
+      let last = inp.value[inp.value.length - 1];
+      let strToArr = inp.value.split("");
+      let s = strToArr.length;
+      strToArr.splice(s - 2, 2, last);
+      console.log(strToArr);
+      let finalRes = strToArr.join("");
+      inp.value = finalRes;
+    }
+    if (inp.value.includes("+*")) {
+      let last = inp.value[inp.value.length - 1];
+      let strToArr = inp.value.split("");
+      let s = strToArr.length;
+      strToArr.splice(s - 2, 2, last);
+      console.log(strToArr);
+      let finalRes = strToArr.join("");
+      inp.value = finalRes;
+    }
   });
 }
+//degree function
+function deg() {
+  if (degToggle === 0) {
+    document.getElementById("degBtn").textContent = "DEG";
+    degToggle = 1;
+  } else {
+    document.getElementById("degBtn").textContent = "RAD";
+    degToggle = 0;
+  }
+}
+// Equals Function
 function resultant() {
   try {
+    if (inp.value === "") {
+      inp.placeholder = "Enter Numbers";
+    }
     if (inp.value.includes("sin")) {
       let finalSinVal = sinOpr();
       inp.value = finalSinVal;
@@ -41,49 +98,86 @@ function resultant() {
       inp.value = finalLogRes;
     }
     if (inp.value.includes("ln")) {
-      let finalLnRes = lnOpr();
-      inp.value = finalLnRes;
+      if (inp.value.includes("2.71828182846")) {
+        inp.value = 1;
+      } else {
+        let finalLnRes = lnOpr();
+        inp.value = finalLnRes;
+      }
     }
     inp.value = eval(inp.value);
   } catch {
     inp.value = "Invalid Input";
   }
 }
+// Clear All Function
 function ac() {
   inp.value = "";
 }
+//Backspace Function
 function bspc() {
   inp.value = inp.value.slice(0, inp.value.length - 1);
 }
+// Trignometric
 function trignometric() {
   let trigContent = document.getElementById("trigs");
   let selectedTrig = trigContent.value;
   //   console.log(selectedTrig);
   if (selectedTrig === "sin") {
-    inp.value += "sin";
+    if (inp.value.includes("+", "-", "*", "/")) {
+      inp.value += "sin";
+    } else {
+      inp.value = "sin";
+    }
   }
   if (selectedTrig === "cos") {
-    inp.value += "cos";
+    if (inp.value.includes("+", "-", "*", "/")) {
+      inp.value += "cos";
+    } else {
+      inp.value = "cos";
+    }
   }
   if (selectedTrig === "tan") {
-    inp.value += "tan";
+    if (inp.value.includes("+", "-", "*", "/")) {
+      inp.value += "tan";
+    } else {
+      inp.value = "tan";
+    }
   }
 }
+//Sin
 function sinRes(val) {
+  if (degToggle === 1) {
+    let x = Math.sin((val * Math.PI) / 180);
+    return x.toFixed(2);
+  }
   return Math.sin(val);
 }
+//cos
 function cosRes(val) {
+  if (degToggle === 1) {
+    let x = Math.cos((val * Math.PI) / 180);
+    return x.toFixed(2);
+  }
   return Math.cos(val);
 }
+//tan
 function tanRes(val) {
+  if (degToggle === 1) {
+    let x = Math.tan((val * Math.PI) / 180);
+    return x.toFixed(2);
+  }
   return Math.tan(val);
 }
+//Pi function
 function pi() {
   inp.value += 3.14159265359;
 }
+// e function
 function e() {
   inp.value += 2.71828182846;
 }
+//2nd function
 function secondOptions() {
   if (toggle === 0) {
     let x3 = document.getElementById("xSquare");
@@ -103,6 +197,7 @@ function secondOptions() {
     toggle = 0;
   }
 }
+//Square or cube function
 function pow2or3() {
   let currVal = document.getElementById("xSquare");
   //   console.log();
@@ -114,15 +209,19 @@ function pow2or3() {
     inp.value = Math.pow(eval(inp.value), 3);
   }
 }
+//square root function
 function sqrR(val) {
   return Math.sqrt(val);
 }
+//log function
 function logRes(val) {
   return Math.log10(val);
 }
+//ln function
 function lnRes(val) {
   return Math.log(val);
 }
+// sqr root or cube root function
 function root2or3() {
   let currVal = document.getElementById("sqrRootX");
 
@@ -136,6 +235,7 @@ function root2or3() {
     inp.value = Math.cbrt(eval(inp.value));
   }
 }
+//pow 10 function
 function pow10orX() {
   let currVal = document.getElementById("tenToX");
   let currValTxt = currVal.textContent;
@@ -146,29 +246,55 @@ function pow10orX() {
     inp.value = Math.pow(inp.value, 10);
   }
 }
+//x pow y function
 function xPowY() {
   inp.value = Math.pow(eval(inp.value), eval(inp.value));
 }
+//Printing ln
 function ln() {
-  inp.value += "ln";
-  // inp.value = Math.log(eval(inp.value));
+  if (inp.value.includes("+", "-", "*", "/")) {
+    inp.value += "ln";
+  } else {
+    inp.value = "ln";
+  }
 }
+//Printing log
 function log() {
-  inp.value += "log";
-  // inp.value = Math.log10(eval(inp.value));
+  if (inp.value.includes("+", "-", "*", "/")) {
+    inp.value += "log";
+  } else {
+    inp.value = "log";
+  }
 }
+//one By X
 function oneByX() {
-  inp.value = 1 / eval(inp.value);
+  if (inp.value === "") {
+    inp.value = "0";
+  } else {
+    inp.value = 1 / eval(inp.value);
+  }
 }
+//Mod x
 function modX() {
-  inp.value = Math.abs(eval(inp.value));
+  if (inp.value === "") {
+    inp.value = "0 ";
+  } else {
+    inp.value = Math.abs(eval(inp.value));
+  }
 }
+//exp function
 function exp() {
-  inp.value = Math.exp(eval(inp.value));
+  if (inp.value === "") {
+    inp.value = "0 ";
+  } else {
+    inp.value = Math.exp(eval(inp.value));
+  }
 }
+//modulo function
 function modulo() {
   inp.value += "%";
 }
+//factorial function
 function fact() {
   const factNum = eval(inp.value);
   inp.value = factorial(factNum);
@@ -183,6 +309,7 @@ function factorial(n) {
     return n * factorial(n - 1);
   }
 }
+//PLUS OR MINUS
 function plusMinus() {
   if (inp.value[0] === "-") {
     inp.value = inp.value.slice(1);
@@ -190,6 +317,7 @@ function plusMinus() {
     inp.value = "-" + inp.value;
   }
 }
+//fUNCTION DROPDOWN FUNCTIONS
 function functionOptions() {
   let funContent = document.getElementById("funcs");
   let selectedFun = funContent.value;
@@ -204,35 +332,45 @@ function functionOptions() {
     inp.value = Math.ceil(inp.value);
   }
 }
-
+//MC
 function mc() {
   if (memToggle === 1) {
     localStorage.removeItem("ms");
     inp.value = "";
+    memToggle = 0;
+    let bothBtns = document.querySelectorAll(".m2");
+    for (let btn of bothBtns) {
+      btn.classList.add("lightM");
+    }
   }
 }
+//MR
 function mr() {
   if (memToggle === 1) {
     inp.value = +localStorage.getItem("ms");
   }
 }
+//MS
 function ms() {
   hightlightMem();
   localStorage.setItem("ms", inp.value);
   inp.value = "";
 }
+//M+
 function mPlus() {
   hightlightMem();
   let msVal = Number(localStorage.getItem("ms"));
   msVal += Number(inp.value);
   localStorage.setItem("ms", msVal);
 }
+//M-
 function mMinus() {
   hightlightMem();
   let msVal = Number(localStorage.getItem("ms"));
   let mMinus = msVal - Number(inp.value);
   localStorage.setItem("ms", Math.abs(mMinus));
 }
+//Enabling MR nad MC
 function hightlightMem() {
   memToggle = 1;
   if (memToggle === 1) {
@@ -242,7 +380,7 @@ function hightlightMem() {
     }
   }
 }
-
+// Functions to parse squareroots, trigonometric and log,ln
 function sqrRootOpr() {
   let cutStr = "";
   let cutStrRes;
@@ -312,7 +450,7 @@ function logOpr() {
 function lnOpr() {
   let cutStr = "";
   let cutStrRes;
-  let count = 3;
+  let count = 2;
   let idxPos = 0;
   for (let i = 0; i < inp.value.length; i++) {
     if (inp.value[i] === "l") {
@@ -330,8 +468,12 @@ function lnOpr() {
           count++;
         }
       }
-
-      cutStrRes = lnRes(cutStr);
+      if (inp.value.includes("2.71828182846")) {
+        cutStrRes = lnRes(Math.E);
+        console.log("sent");
+      } else {
+        cutStrRes = lnRes(cutStr);
+      }
     }
   }
   console.log(cutStrRes);

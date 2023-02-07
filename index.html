@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- CALCULATOR CONTAINER -->
     <div class="calContainer">
       <div class="screen">
-        <input type="text" class="screenTxt" value="0" />
+        <input type="text" class="screenTxt" placeholder="0" />
       </div>
       <div class="row row1">
-        <button class="btn1">DEG</button>
+        <button class="btn1" onclick="deg()" id="degBtn">DEG</button>
         <button class="btn1">F-E</button>
       </div>
       <div class="row">
@@ -30,7 +31,7 @@
           value="Trignometry"
           onchange="trignometric()"
         >
-          <option value="none" selected>∡ Trignometry</option>
+          <option>∡ Trignometry</option>
 
           <option class="ops" value="sin">sin</option>
           <option class="ops" value="cos">cos</option>
@@ -43,7 +44,7 @@
           onchange="functionOptions()"
         >
           Functions
-          <option value="none" selected>ƒ Functions</option>
+          <option>ƒ Functions</option>
           <option class="ops" value="rand">rand</option>
           <option class="ops" value="floor">floor</option>
           <option class="ops" value="ceil">ceil</option>
@@ -89,7 +90,7 @@
         <button class="btn wBtn">1</button>
         <button class="btn wBtn">2</button>
         <button class="btn wBtn">3</button>
-        <button class="btn">+</button>
+        <button class="btn oprBtn">+</button>
       </div>
       <div class="row">
         <button onclick="ln()">ln</button>
